@@ -11,10 +11,10 @@ public class GameThread extends Thread {
     boolean gameLoaded;
     GameView gv;
     int gameState;
-    final int LOADING = 0;
-    final int RUNNING = 1;
-    final int OVER = 2;
-//test
+    static final int LOADING = 0;
+    static final int RUNNING = 1;
+    static final int OVER = 2;
+
     public GameThread(GameView gv) {
         this.gv=gv;
         gameLoaded = false;
@@ -25,8 +25,12 @@ public class GameThread extends Thread {
         Canvas c;
         gameState = LOADING;
         while( !Thread.interrupted() ) {
+            if (!gameLoaded){
+                gv.loadGame(1);
+            }
             switch(gameState){
                 case LOADING:
+                    gameState = RUNNING;
                     break;
                 case RUNNING:
                     c = sh.lockCanvas(null);

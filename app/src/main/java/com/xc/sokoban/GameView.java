@@ -20,6 +20,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     boolean gameLoaded = false;
     GameThread gt;
 
+    public void loadGame(int level){
+        switch (level){
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
+    }
+
     @Override
     public void surfaceCreated ( SurfaceHolder holder ) {
         // Launch animator thread
