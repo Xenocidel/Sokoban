@@ -14,7 +14,7 @@ public class GameThread extends Thread {
     final int LOADING = 0;
     final int RUNNING = 1;
     final int OVER = 2;
-
+//test
     public GameThread(GameView gv) {
         this.gv=gv;
         gameLoaded = false;
