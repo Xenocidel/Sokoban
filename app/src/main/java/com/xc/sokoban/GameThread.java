@@ -27,6 +27,7 @@ public class GameThread extends Thread {
         while( !Thread.interrupted() ) {
             if (!gameLoaded){
                 gv.loadGame(1);
+                gameLoaded = true;
             }
             switch(gameState){
                 case LOADING:
