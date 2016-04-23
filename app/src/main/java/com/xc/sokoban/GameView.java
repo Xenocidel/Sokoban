@@ -3,9 +3,14 @@ package com.xc.sokoban;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -26,10 +31,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private ArrayList<Wall> walls = new ArrayList();
     private ArrayList<Box> boxes = new ArrayList();
     private ArrayList<Target> targets = new ArrayList();
+    private ArrayList<Tile> tiles = new ArrayList(); //empty tiles
     Wall wall;
     Target target;
     Box box;
     Player player;
+    Tile tile;
     private int SPACE;
 
     private String MAZE;
@@ -72,23 +79,27 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 y += SPACE;
                 x = 0;
             } else if(item == '#') {
-                wall = new Wall(x, y, SPACE);
+                wall = new Wall(context, x, y, SPACE);
                 walls.add(wall);
                 x += SPACE;
-            } else if(item == '@') {
-                target = new Target(x, y, SPACE);
-                targets.add(target);
-                x += SPACE;
             }else if(item == ' '){
+                tile = new Tile(x,y,SPACE);
+                tiles.add(tile);
                 x += SPACE;
-            }else if(item == '$'){
-                box = new Box(x, y, SPACE);
+            }else if(item == '$') {
+                box = new Box(context, x, y, SPACE);
                 boxes.add(box);
                 x += SPACE;
+            }else if(item == '@') {
+                target = new Target(context, x, y, SPACE);
+                targets.add(target);
+                x += SPACE;
             }else if(item == 'P'){
-                player = new Player(x, y, SPACE);
+                player = new Player(context, x, y, SPACE);
             }
         }
+        loadTouchHandler();
+        Log.d("Load", "Level Loaded");
     }
 
     @Override
@@ -115,12 +126,27 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         for(int i=0; i<boxes.size(); i++){
             boxes.get(i).draw(c);
         }
+        for(int i=0; i<tiles.size(); i++){
+            tiles.get(i).draw(c);
+        }
         player.draw(c);
 
     }
 
     public void update(){
 
+    }
+
+    public void loadTouchHandler() {
+        //below code must be run on a thread with a looper
+        /*final GestureDetector gestureDetector = new GestureDetector(context, new SwipeListener(), new Handler());
+        setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return true;
+            }
+        });*/
     }
 
     @Override
