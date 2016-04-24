@@ -20,9 +20,36 @@ public class Box extends Tile{
         numOfSpot++;
         Bitmap tmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.box);
         bitmap = Bitmap.createScaledBitmap(tmp, space, space, false);
+        status = Status.STOP;
     }
 
     public void draw(Canvas c){
         c.drawBitmap(bitmap, null, rect, null);
+    }
+
+    public void update(){
+        switch (status){
+            case STOP:
+
+                break;
+            case UP:
+                y -= space/10;
+                break;
+            case DOWN:
+                y += space/10;
+                break;
+            case RIGHT:
+                x += space/10;
+                break;
+            case LEFT:
+                x -= space/10;
+                break;
+        }
+        rect = new RectF(x, y, x+space, y+space);
+    }
+
+    public void setRect(int x, int y){
+        this.x = x;
+        this.y = y;
     }
 }

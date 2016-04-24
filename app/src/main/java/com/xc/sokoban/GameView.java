@@ -3,6 +3,7 @@ package com.xc.sokoban;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -49,17 +50,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                          "########  \n"
                         +"#      ###\n"
                         +"###      #\n"
-                        +"#  @     #\n"
-                        +"#    @ ###\n"
-                        +"##  $    #\n"
-                        +"#  @     #\n"
-                        +"#     P  ##\n"
-                        +"##  ###  #\n"
-                        +"#    $   #\n"
+                        +"#  T     #\n"
+                        +"#    T ###\n"
+                        +"##  B    #\n"
+                        +"#  T  P   #\n"
+                        +"#        #\n"
+                        +"##   ##  #\n"
+                        +"#    B   #\n"
                         +"##  ##   #\n"
-                        +"## $   $ #\n"
+                        +"## B   B #\n"
                         +"####     #\n"
-                        +"#      @ #\n"
+                        +"#      T #\n"
                         +"##########\n";
                 break;
             case 2:
@@ -86,11 +87,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 tile = new Tile(x,y,SPACE);
                 tiles.add(tile);
                 x += SPACE;
-            }else if(item == '$') {
+            }else if(item == 'B') {
                 box = new Box(context, x, y, SPACE);
                 boxes.add(box);
                 x += SPACE;
-            }else if(item == '@') {
+            }else if(item == 'T') {
                 target = new Target(context, x, y, SPACE);
                 targets.add(target);
                 x += SPACE;
@@ -116,7 +117,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void draw(Canvas c) {
         super.draw(c);
-        c.drawColor(Color.BLACK);
+        c.drawColor(Color.WHITE);
         for(int i=0; i<walls.size(); i++){
             walls.get(i).draw(c);
         }
@@ -126,16 +127,69 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         for(int i=0; i<boxes.size(); i++){
             boxes.get(i).draw(c);
         }
-        for(int i=0; i<tiles.size(); i++){
+        /*for(int i=0; i<tiles.size(); i++){
             tiles.get(i).draw(c);
-        }
+        }*/
         player.draw(c);
 
     }
 
     public void update(){
+        player.update();
+        collisionDetection();
+        for(int i=0; i<boxes.size(); i++) {
+            boxes.get(i).update();
+        }
+
 
     }
+
+    public void collisionDetection(){
+        for(int i=0; i<walls.size(); i++) {
+            if (RectF.intersects(player.rect, walls.get(i).rect)) {
+                switch(player.status){
+                    case LEFT:
+                        player.setRect(walls.get(i).x+SPACE, player.y);
+                        break;
+                    case RIGHT:
+                        player.setRect(walls.get(i).x-SPACE, player.y);
+                        break;
+                    case UP:
+                        player.setRect(player.x, walls.get(i).y+SPACE);
+                        break;
+                    case DOWN:
+                        player.setRect(player.x, walls.get(i).y-SPACE);
+                        break;
+                }
+
+            }
+        }
+        for(int i=0; i<boxes.size(); i++) {
+            if (RectF.intersects(player.rect, boxes.get(i).rect)) {
+                switch(player.status){
+                    case LEFT:
+                        player.setRect(boxes.get(i).x+SPACE, player.y);
+                        boxes.get(i).setStatus(Tile.Status.LEFT);
+                        break;
+                    case RIGHT:
+                        player.setRect(boxes.get(i).x-SPACE, player.y);
+                        boxes.get(i).setStatus(Tile.Status.RIGHT);
+                        break;
+                    case UP:
+                        player.setRect(player.x, boxes.get(i).y+SPACE);
+                        boxes.get(i).setStatus(Tile.Status.UP);
+                        break;
+                    case DOWN:
+                        player.setRect(player.x, boxes.get(i).y-SPACE);
+                        boxes.get(i).setStatus(Tile.Status.DOWN);
+                        break;
+                }
+
+            }
+        }
+    }
+
+
 
     public void loadTouchHandler() {
         //below code must be run on a thread with a looper
@@ -147,6 +201,37 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 return true;
             }
         });*/
+
+        setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()){
+                    case MotionEvent.ACTION_UP:
+                        player.setStatus(Tile.Status.STOP);
+                        for(int i=0; i<boxes.size(); i++){
+                            boxes.get(i).setStatus(Tile.Status.STOP);
+                        }
+                        Log.d("MotionEvent", "Action UP");
+                        break;
+                    case MotionEvent.ACTION_DOWN:
+                        Log.d("MotionEvent","Action DOWN");
+                        if(event.getY() > getHeight()*8/9) {
+                            if (event.getX() < getWidth() / 4) {
+                                player.setStatus(Tile.Status.LEFT);
+                            } else if(event.getX() > getWidth()/4*3){
+                                player.setStatus((Tile.Status.RIGHT));
+                            }
+                        }else if(event.getY() < getHeight()*4/5 && event.getY() > getHeight()*2/5){
+                                player.setStatus(Tile.Status.DOWN);
+                        }else if(event.getY() < getHeight()*2/5){
+                            player.setStatus(Tile.Status.UP);
+                        }
+                    break;
+                }
+
+                return true;
+            }
+        });
     }
 
     @Override

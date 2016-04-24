@@ -18,6 +18,8 @@ public class Tile {
     public int y;
     public int space;
     public Bitmap bitmap;
+    public enum Status{STOP, UP, DOWN, RIGHT, LEFT}
+    Status status;
 
     public Tile(int x, int y, int space){
         this.x = x;
@@ -30,6 +32,10 @@ public class Tile {
         Paint p = new Paint();
         p.setColor(Color.LTGRAY);
         c.drawRect(rect, p);
+    }
+
+    public void setStatus(Status s){
+        this.status = s;
     }
 
     public boolean getIsWall(){return isWall;}

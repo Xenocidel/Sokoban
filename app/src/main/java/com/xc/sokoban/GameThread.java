@@ -38,8 +38,9 @@ public class GameThread extends Thread {
                     try {
                         synchronized (sh) {
                             gv.draw(c);
-                            Log.d("Draw", "Frame Complete");
+                            //Log.d("Draw", "Frame Complete");
                             gv.update();
+
                         }
                     } catch (Exception e) {
                     } finally {

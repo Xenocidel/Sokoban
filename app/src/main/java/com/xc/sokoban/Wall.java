@@ -24,4 +24,7 @@ public class Wall extends Tile {
     public void draw(Canvas c){
         c.drawBitmap(bitmap, null, rect, null);
     }
+
+
+
 }
