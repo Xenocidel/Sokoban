@@ -15,7 +15,12 @@ public class SwipeListener extends GestureDetector.SimpleOnGestureListener {
 
     static final int SWIPE_DIS = 100;
     static final int SWIPE_VEL = 100;
+    GameView gameView;
 
+    public SwipeListener(GameView gameView) {
+        this.gameView = gameView;
+        Log.i("init", "SwipeListener received gameView");
+    }
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
@@ -28,6 +33,10 @@ public class SwipeListener extends GestureDetector.SimpleOnGestureListener {
                 Log.i("Swipe", "Right");
             } else if ((deltaY > SWIPE_DIS) && (Math.abs(velocityY) > SWIPE_VEL)) {
                 Log.i("Swipe", "Up");
+                gameView.player.setStatus(Tile.Status.STOP);
+                for(int i=0; i<gameView.boxes.size(); i++){
+                    gameView.boxes.get(i).setStatus(Tile.Status.STOP);
+                }
             } else if ((-deltaY > SWIPE_DIS) && (Math.abs(velocityY) > SWIPE_VEL)) {
                 Log.i("Swipe", "Down");
             }

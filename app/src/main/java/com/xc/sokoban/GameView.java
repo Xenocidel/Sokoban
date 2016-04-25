@@ -29,10 +29,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     boolean gameLoaded = false;
     GameThread gt;
 
-    private ArrayList<Wall> walls = new ArrayList();
-    private ArrayList<Box> boxes = new ArrayList();
-    private ArrayList<Target> targets = new ArrayList();
-    private ArrayList<Tile> tiles = new ArrayList(); //empty tiles
+    public ArrayList<Wall> walls = new ArrayList();
+    public ArrayList<Box> boxes = new ArrayList();
+    public ArrayList<Target> targets = new ArrayList();
+    public ArrayList<Tile> tiles = new ArrayList(); //empty tiles
     Wall wall;
     Target target;
     Box box;
@@ -192,17 +192,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
     public void loadTouchHandler() {
-        //below code must be run on a thread with a looper
-        /*final GestureDetector gestureDetector = new GestureDetector(context, new SwipeListener(), new Handler());
-        setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
-                return true;
-            }
-        });*/
 
-        setOnTouchListener(new OnTouchListener() {
+        /*setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()){
@@ -231,7 +222,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
                 return true;
             }
-        });
+        });*/
     }
 
     @Override
