@@ -22,23 +22,21 @@ public class SwipeListener extends GestureDetector.SimpleOnGestureListener {
         Log.i("init", "SwipeListener received gameView");
     }
 
+
+
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         float deltaX = e1.getX() - e2.getX();
         float deltaY = e1.getY() - e2.getY();
         try {
             if ((deltaX > SWIPE_DIS) && (Math.abs(velocityX) > SWIPE_VEL)) {
-                Log.i("Swipe", "Left");
+                Log.i("Touch", "Left");
             } else if ((-deltaX > SWIPE_DIS) && (Math.abs(velocityX) > SWIPE_VEL)) {
-                Log.i("Swipe", "Right");
+                Log.i("Touch", "Right");
             } else if ((deltaY > SWIPE_DIS) && (Math.abs(velocityY) > SWIPE_VEL)) {
-                Log.i("Swipe", "Up");
-                gameView.player.setStatus(Tile.Status.STOP);
-                for(int i=0; i<gameView.boxes.size(); i++){
-                    gameView.boxes.get(i).setStatus(Tile.Status.STOP);
-                }
+                Log.i("Touch", "Up");
             } else if ((-deltaY > SWIPE_DIS) && (Math.abs(velocityY) > SWIPE_VEL)) {
-                Log.i("Swipe", "Down");
+                Log.i("Touch", "Down");
             }
         } catch (Exception e) {
             //ignore
