@@ -39,8 +39,6 @@ public class GameThread extends Thread {
                         synchronized (sh) {
                             gv.draw(c);
                             //Log.d("Draw", "Frame Complete");
-                            gv.update();
-
                         }
                     } catch (Exception e) {
                     } finally {
@@ -57,9 +55,31 @@ public class GameThread extends Thread {
                     }
                     break;
                 case OVER:
+                    c = sh.lockCanvas(null);
+                    try {
+                        synchronized (sh) {
+                            gv.draw(c);
+                        }
+                    } catch (Exception e) {
+                    } finally {
+                        if (c != null) {
+                            sh.unlockCanvasAndPost(c);
+                        }
+                    }
+                    // Set the frame rate by setting this delay
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        // Thread was interrupted while sleeping.
+                        return;
+                    }
                     break;
             }
         }
+    }
+
+    public void setGameState(int gameState){
+        this.gameState = gameState;
     }
 
 }

@@ -18,6 +18,7 @@ public class Target extends Tile{
     public Target(Context context, int x, int y, int space){
         super(x, y, space);
         numOfSpot++;
+        type = Type.TARGET;
         Bitmap tmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.target);
         bitmap = Bitmap.createScaledBitmap(tmp, space, space, false);
     }

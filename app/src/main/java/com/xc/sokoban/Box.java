@@ -15,12 +15,14 @@ public class Box extends Tile{
 
     public static int numOfSpot;
 
-    public Box(Context context, int x, int y, int space){
+    public Box(Context context, int x, int y, int space, GameView gameView){
         super(x, y, space);
         numOfSpot++;
+        type = Type.BOX;
         Bitmap tmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.box);
         bitmap = Bitmap.createScaledBitmap(tmp, space, space, false);
         status = Status.STOP;
+        this.gameView = gameView;
     }
 
     public void draw(Canvas c){
@@ -28,9 +30,8 @@ public class Box extends Tile{
     }
 
     public void update(){
-        switch (status){
+        /*switch (status){ movement is taken care of elsewhere
             case STOP:
-
                 break;
             case UP:
                 y -= space/10;
@@ -44,7 +45,7 @@ public class Box extends Tile{
             case LEFT:
                 x -= space/10;
                 break;
-        }
+        }*/
         rect = new RectF(x, y, x+space, y+space);
     }
 
@@ -52,4 +53,5 @@ public class Box extends Tile{
         this.x = x;
         this.y = y;
     }
+
 }

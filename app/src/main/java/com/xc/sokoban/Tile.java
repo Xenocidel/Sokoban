@@ -11,15 +11,17 @@ import android.graphics.RectF;
  */
 public class Tile {
     public RectF rect;
-    public boolean isWall;
     public int width;
     public int height;
     public int x;
     public int y;
     public int space;
     public Bitmap bitmap;
+    public enum Type{WALL, BOX, TARGET}
     public enum Status{STOP, UP, DOWN, RIGHT, LEFT}
     Status status;
+    Type type;
+    GameView gameView;
 
     public Tile(int x, int y, int space){
         this.x = x;
@@ -38,5 +40,21 @@ public class Tile {
         this.status = s;
     }
 
-    public boolean getIsWall(){return isWall;}
+    public Type getType(){
+        return type;
+    }
+
+    public int getXTile(){
+        return x/space;
+    }
+    public int getYTile(){
+        return y/space;
+    }
+    public void setXTile(int cellX){
+        x = cellX*space;
+    }
+    public void setYTile(int cellY){
+        y = cellY*space;
+    }
+    
 }

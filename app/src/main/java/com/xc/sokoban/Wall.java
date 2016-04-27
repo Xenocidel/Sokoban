@@ -15,7 +15,7 @@ public class Wall extends Tile {
 
     public Wall(Context context, int x, int y, int space){
         super(x, y, space);
-        isWall = true;
+        type = Type.WALL;
         numOfWall++;
         Bitmap tmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.wall);
         bitmap = Bitmap.createScaledBitmap(tmp, space, space, false);

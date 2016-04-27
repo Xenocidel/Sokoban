@@ -13,7 +13,7 @@ import android.view.View;
  */
 public class SwipeListener extends GestureDetector.SimpleOnGestureListener {
 
-    static final int SWIPE_DIS = 100;
+    static final int SWIPE_DIS = 50;
     static final int SWIPE_VEL = 100;
     GameView gameView;
 
@@ -28,20 +28,50 @@ public class SwipeListener extends GestureDetector.SimpleOnGestureListener {
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         float deltaX = e1.getX() - e2.getX();
         float deltaY = e1.getY() - e2.getY();
-        try {
-            if ((deltaX > SWIPE_DIS) && (Math.abs(velocityX) > SWIPE_VEL)) {
-                Log.i("Touch", "Left");
-            } else if ((-deltaX > SWIPE_DIS) && (Math.abs(velocityX) > SWIPE_VEL)) {
-                Log.i("Touch", "Right");
-            } else if ((deltaY > SWIPE_DIS) && (Math.abs(velocityY) > SWIPE_VEL)) {
-                Log.i("Touch", "Up");
-            } else if ((-deltaY > SWIPE_DIS) && (Math.abs(velocityY) > SWIPE_VEL)) {
-                Log.i("Touch", "Down");
+        if (gameView.gt.gameState == GameThread.RUNNING) {
+            try {
+                if ((deltaY > SWIPE_DIS) && (Math.abs(velocityY) > SWIPE_VEL)) {
+                    Log.i("Touch", "Up");
+                    gameView.player.move(Tile.Status.UP);
+                } else if ((-deltaY > SWIPE_DIS) && (Math.abs(velocityY) > SWIPE_VEL)) {
+                    Log.i("Touch", "Down");
+                    gameView.player.move(Tile.Status.DOWN);
+                } else if ((deltaX > SWIPE_DIS) && (Math.abs(velocityX) > SWIPE_VEL)) {
+                    Log.i("Touch", "Left");
+                    gameView.player.move(Tile.Status.LEFT);
+                } else if ((-deltaX > SWIPE_DIS) && (Math.abs(velocityX) > SWIPE_VEL)) {
+                    Log.i("Touch", "Right");
+                    gameView.player.move(Tile.Status.RIGHT);
+                }
+            } catch (Exception e) {
+                //ignore
             }
-        } catch (Exception e) {
-            //ignore
+            gameView.checkWin();
+            return true;
         }
-        return true;
+        else if (gameView.gt.gameState == GameThread.OVER){
+            try {
+                if ((deltaY > SWIPE_DIS) && (Math.abs(velocityY) > SWIPE_VEL)) {
+                    Log.i("Touch", "Up");
+                    gameView.loadGame(gameView.level+1);
+                } else if ((-deltaY > SWIPE_DIS) && (Math.abs(velocityY) > SWIPE_VEL)) {
+                    Log.i("Touch", "Down");
+                    gameView.loadGame(gameView.level+1);
+                } else if ((deltaX > SWIPE_DIS) && (Math.abs(velocityX) > SWIPE_VEL)) {
+                    Log.i("Touch", "Left");
+                    gameView.loadGame(gameView.level+1);
+                } else if ((-deltaX > SWIPE_DIS) && (Math.abs(velocityX) > SWIPE_VEL)) {
+                    Log.i("Touch", "Right");
+                    gameView.loadGame(gameView.level+1);
+                }
+            } catch (Exception e) {
+                //ignore
+            }
+            gameView.gt.setGameState(GameThread.RUNNING);
+            gameView.level++;
+            return true;
+        }
+        return false;
     }
 
 }
