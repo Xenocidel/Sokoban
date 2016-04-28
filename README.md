@@ -7,7 +7,11 @@ Compilation Instructions
 
 How to Play
 - Upon launch, you will be greeted with a simple main menu.
-- TBD
+- Press Play to start the first level.
+- Swipe anywhere on the screen in the direction you wish to move.
+- Your objective is to push all the boxes onto targets.
+- After all targets are covered with boxes, a "You Win" screen will appear and you may continue to the next level by swiping in any direction.
 
 Game Features
-- TBD
+- Swipe to move
+- 4 levels
