@@ -118,16 +118,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(c);
         if (gt.gameState == GameThread.RUNNING) {
             c.drawColor(Color.WHITE);
-        /*for(int i=0; i<walls.size(); i++){
-            walls.get(i).draw(c);
-        }
-        for(int i=0; i<targets.size(); i++){
-            targets.get(i).draw(c);
-        }
-        for(int i=0; i<boxes.size(); i++){
-            boxes.get(i).draw(c);
-        }
-        player.draw(c);*/
             for (int i = 0; i < maze.mazeSizeX; i++) {
                 for (int j = 0; j < maze.mazeSizeY; j++) {
                     if (maze.mazeTiles[i][j][0] != null) {

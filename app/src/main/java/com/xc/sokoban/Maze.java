@@ -96,8 +96,8 @@ public class Maze {
     }
 
     public void moveTileDown(Tile tile){
-        mazeTiles[tile.getXTile()][tile.getYTile()][1] = tile;
         mazeTiles[tile.getXTile()][tile.getYTile()][0] = null;
+        mazeTiles[tile.getXTile()][tile.getYTile()][1] = tile;
     }
 
     public void moveTileUp(Tile tile){

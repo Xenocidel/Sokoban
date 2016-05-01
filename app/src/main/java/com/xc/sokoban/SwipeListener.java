@@ -53,22 +53,22 @@ public class SwipeListener extends GestureDetector.SimpleOnGestureListener {
             try {
                 if ((deltaY > SWIPE_DIS) && (Math.abs(velocityY) > SWIPE_VEL)) {
                     Log.i("Touch", "Up");
-                    gameView.loadGame(gameView.level+1);
+                    gameView.loadGame(++gameView.level);
                 } else if ((-deltaY > SWIPE_DIS) && (Math.abs(velocityY) > SWIPE_VEL)) {
                     Log.i("Touch", "Down");
-                    gameView.loadGame(gameView.level+1);
+                    gameView.loadGame(++gameView.level);
                 } else if ((deltaX > SWIPE_DIS) && (Math.abs(velocityX) > SWIPE_VEL)) {
                     Log.i("Touch", "Left");
-                    gameView.loadGame(gameView.level+1);
+                    gameView.loadGame(++gameView.level);
                 } else if ((-deltaX > SWIPE_DIS) && (Math.abs(velocityX) > SWIPE_VEL)) {
                     Log.i("Touch", "Right");
-                    gameView.loadGame(gameView.level+1);
+                    gameView.loadGame(++gameView.level);
                 }
             } catch (Exception e) {
                 //ignore
             }
             gameView.gt.setGameState(GameThread.RUNNING);
-            gameView.level++;
+            //gameView.level++;
             return true;
         }
         return false;
